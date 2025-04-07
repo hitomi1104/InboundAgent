@@ -9,10 +9,12 @@ app = FastAPI()
 class Carrier(BaseModel):
     mc_number: str
 
-# Simulate a GET endpoint for verifying MC number
+
+
 @app.get("/")
 def root():
     return {"message": "Welcome to the HappyRobot API!"}
+
 
 @app.get("/verify_carrier")
 def verify_carrier(mc_number: str):
@@ -45,3 +47,19 @@ def get_load_by_reference(reference_number: str):
         raise HTTPException(status_code=500, detail=str(e))
     
     raise HTTPException(status_code=404, detail="Load not found")
+
+
+
+class BookingConfirmation(BaseModel):
+    carrier_name: str
+    mc_number: str
+    reference_number: str
+
+@app.post("/confirm_booking")
+async def confirm_booking(data: BookingConfirmation):
+    return {
+        "message": "Booking confirmed",
+        "carrier": data.carrier_name,
+        "mc_number": data.mc_number,
+        "reference_number": data.reference_number
+    }
