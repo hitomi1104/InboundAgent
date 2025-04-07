@@ -63,3 +63,8 @@ async def confirm_booking(data: BookingConfirmation):
         "mc_number": data.mc_number,
         "reference_number": data.reference_number
     }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=10000)
