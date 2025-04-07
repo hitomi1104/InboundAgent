@@ -41,7 +41,7 @@ def get_load_by_reference(reference_number: str):
         with open("loads.csv", mode="r") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                if row["reference_number"].lower() == reference_number.lower():
+                if row["reference_number"].strip().lower() == reference_number.strip().lower():
                     return row
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
