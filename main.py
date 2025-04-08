@@ -79,6 +79,8 @@ def get_load_by_reference(reference_number: str):
     raise HTTPException(status_code=404, detail="Load not found")
 
 
+
+
 confirmed_bookings = []
 class BookingConfirmation(BaseModel):
     carrier_name: str
