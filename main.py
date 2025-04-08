@@ -92,7 +92,7 @@ class BookingConfirmation(BaseModel):
     pickup_time: str
     delivery_time: str
     timestamp: str
-    speciality_require: str
+    special_requirements: str
     agent_name: str
     caller_sentiment: str
 
