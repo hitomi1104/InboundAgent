@@ -20,21 +20,6 @@ def root():
     return {"message": "Welcome to the HappyRobot API!"}
 
 
-# @app.get("/verify_carrier")
-# def verify_carrier(mc_number: str):
-#     # Simulate logic — later this can be an API call to FMCSA
-#     if mc_number == "123456":
-#         return {
-#             "carrier_name": "carrier_name",
-#             "status": "active",
-#             "mc_number": mc_number
-#         }
-#     else:
-#         return {
-#             "carrier_name": "Unknown",
-#             "status": "not found",
-#             "mc_number": mc_number
-#         }
 FMCSA_API_KEY = "cdc33e44d693a3a58451898d4ec9df862c65b954"
 # FMCSA_API_KEY = "4745a64a6506b2dda4b9b79f5aed274e936f4d70"
 @app.get("/verify_carrier")
@@ -94,7 +79,7 @@ def get_load_by_reference(reference_number: str):
     raise HTTPException(status_code=404, detail="Load not found")
 
 
-
+confirmed_bookings = []
 class BookingConfirmation(BaseModel):
     carrier_name: str
     mc_number: str
@@ -102,12 +87,16 @@ class BookingConfirmation(BaseModel):
 
 @app.post("/confirm_booking")
 async def confirm_booking(data: BookingConfirmation):
+    confirmed_bookings.append(data.model_dump()) 
     return {
-        "message": "Booking confirmed",
         "carrier": data.carrier_name,
         "mc_number": data.mc_number,
         "reference_number": data.reference_number
     }
+
+@app.get("/confirmed_bookings")
+def get_confirmed_bookings():
+    return confirmed_bookings
 
 
 if __name__ == "__main__":
