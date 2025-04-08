@@ -3,6 +3,9 @@ from pydantic import BaseModel
 import csv
 from fastapi import FastAPI, HTTPException
 
+
+
+
 app = FastAPI()
 
 # Define a simple schema for carrier input
