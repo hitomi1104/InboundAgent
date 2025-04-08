@@ -81,7 +81,6 @@ def get_load_by_reference(reference_number: str):
 
 
 
-confirmed_bookings = []
 class BookingConfirmation(BaseModel):
     carrier_name: str
     mc_number: str
@@ -98,12 +97,7 @@ class BookingConfirmation(BaseModel):
 @app.post("/confirm_booking")
 async def confirm_booking(data: BookingConfirmation):
     booking_data = data.model_dump()
-    confirmed_bookings.append(booking_data)
     return booking_data
-
-@app.get("/confirmed_bookings")
-def get_confirmed_bookings():
-    return confirmed_bookings
 
 
 if __name__ == "__main__":
