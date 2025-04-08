@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import csv
 from fastapi import FastAPI, HTTPException
+import requests
 
 
 
@@ -19,25 +20,66 @@ def root():
     return {"message": "Welcome to the HappyRobot API!"}
 
 
+# @app.get("/verify_carrier")
+# def verify_carrier(mc_number: str):
+#     # Simulate logic — later this can be an API call to FMCSA
+#     if mc_number == "123456":
+#         return {
+#             "carrier_name": "carrier_name",
+#             "status": "active",
+#             "mc_number": mc_number
+#         }
+#     else:
+#         return {
+#             "carrier_name": "Unknown",
+#             "status": "not found",
+#             "mc_number": mc_number
+#         }
+FMCSA_API_KEY = "cdc33e44d693a3a58451898d4ec9df862c65b954"
+# FMCSA_API_KEY = "4745a64a6506b2dda4b9b79f5aed274e936f4d70"
 @app.get("/verify_carrier")
 def verify_carrier(mc_number: str):
-    # Simulate logic — later this can be an API call to FMCSA
-    if mc_number == "123456":
+    url = f"https://mobile.fmcsa.dot.gov/qc/services/carriers/docket-number/{mc_number}?webKey={FMCSA_API_KEY}"
+    response = requests.get(url)
+
+    print("FMCSA API status:", response.status_code)
+    print("Response:", response.text[:300])
+
+    if response.status_code != 200:
+        raise HTTPException(status_code=500, detail="FMCSA API error")
+
+    try:
+        data = response.json()
+        content = data.get("content")
+
+        if not content or not isinstance(content, list):
+            raise HTTPException(status_code=404, detail="Carrier not found")
+
+        carrier_data = content[0].get("carrier", {})
+
         return {
-            "carrier_name": "carrier_name",
-            "status": "active",
+            "carrier_name": carrier_data.get("legalName", "Unknown"),
+            "status": "active" if carrier_data.get("allowedToOperate") == "Y" else "inactive",
             "mc_number": mc_number
         }
-    else:
-        return {
-            "carrier_name": "Unknown",
-            "status": "not found",
-            "mc_number": mc_number
-        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error parsing FMCSA response")
     
 
-	# reference_number=rff123, Load #1 is returned.
-	# lane=Atlanta to Los Angeles, Load #2 is returned.
+
+    except Exception as e:
+        # Fallback
+        if mc_number == "123456":
+            return {
+                "carrier_name": "Simulated Carrier Inc.",
+                "status": "active",
+                "mc_number": mc_number
+            }
+        raise HTTPException(status_code=500, detail="FMCSA API error or carrier not found")
+    
+
+
 @app.get("/loads/{reference_number}")
 def get_load_by_reference(reference_number: str):
     try:
