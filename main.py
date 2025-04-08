@@ -86,14 +86,21 @@ class BookingConfirmation(BaseModel):
     carrier_name: str
     mc_number: str
     reference_number: str
+    commodity: str
+    origin: str
+    destination: str
+    pickup_time: str
+    delivery_time: str
+    timestamp: str
+    speciality_require: str
+    agent_name: str
+    caller_sentiment: str
 
 @app.post("/confirm_booking")
 async def confirm_booking(data: BookingConfirmation):
-    confirmed_bookings.append(data.model_dump()) 
-    return {
-    "booking_details": data.model_dump()
-}
-
+    booking_data = data.model_dump()
+    confirmed_bookings.append(booking_data)
+    return booking_data
 
 @app.get("/confirmed_bookings")
 def get_confirmed_bookings():
