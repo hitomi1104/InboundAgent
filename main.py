@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 FMCSA_API_KEY = os.getenv("FMCSA_API_KEY")
 
+print("🔑 FMCSA_API_KEY:", FMCSA_API_KEY)
+
 app = FastAPI()
 
 class Carrier(BaseModel):
