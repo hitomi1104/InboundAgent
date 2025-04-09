@@ -40,4 +40,85 @@ This project simulates a voice-enabled AI agent for carrier sales reps at **Happ
 
 ### ✅ GET `/loads/REF09460`
 
-**Request**
+**Response**
+```json
+{
+  "reference_number": "REF09460",
+  "origin": "Denver, CO",
+  "destination": "Detroit, MI",
+  "equipment_type": "Dry Van",
+  "rate": "868",
+  "commodity": "Automotive Parts"
+}
+```
+
+---
+
+### ✅ `GET /verify_carrier?mc_number=...`  
+Validate carrier's MC number using the FMCSA API.
+
+**Example Request**
+```
+GET https://inboundagent.onrender.com/verify_carrier?mc_number=302238
+```
+
+**Example Response**
+```json
+{
+  "carrier_name": "P I T A TRUCKING INC",
+  "status": "active",
+  "mc_number": "302238"
+}
+```
+
+---
+
+### ✅ `POST /confirm_booking`  
+Store a booking confirmation submitted by a verified carrier.
+
+**Example Request**
+```
+POST https://inboundagent.onrender.com/confirm_booking
+Content-Type: application/json
+```
+
+**Request Body**
+```json
+{
+  "carrier_name": "P I T A TRUCKING INC",
+  "mc_number": "302238",
+  "reference_number": "REF09460",
+  "commodity": "Automotive Parts",
+  "origin": "Denver, CO",
+  "destination": "Detroit, MI",
+  "pickup_time": "2025-04-10 08:00",
+  "delivery_time": "2025-04-11 14:00",
+  "special_requirements": "TWIC",
+  "agent_name": "Paul",
+  "caller_sentiment": "happy"
+}
+```
+
+**Example Response**
+```json
+{
+  "carrier_name": "P I T A TRUCKING INC",
+  "mc_number": "302238",
+  "reference_number": "REF09460",
+  "commodity": "Automotive Parts",
+  "origin": "Denver, CO",
+  "destination": "Detroit, MI",
+  "pickup_time": "2025-04-10 08:00",
+  "delivery_time": "2025-04-11 14:00",
+  "special_requirements": "TWIC",
+  "agent_name": "Paul",
+  "caller_sentiment": "happy"
+}
+```
+
+---
+
+## 🎥 Demo
+
+> [Insert Loom/Youtube link here]  
+> Includes walkthrough of API functionality, GET & POST examples, and explanation of code structure.
