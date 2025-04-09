@@ -37,10 +37,15 @@ This project simulates a voice-enabled AI agent for carrier sales reps at **Happ
 ---
 
 ## 🔍 Sample API Usage
+ (Doc: https://inboundagent.onrender.com/redoc#operation/root__get)
+### ✅ GET `/loads/{reference_number}`
+Retrieve the full details of a load from loads.csv, based on the reference number the carrier saw online.
 
-### ✅ GET `/loads/REF09460`
-
-**Response**
+**Example Request**
+'''
+https://inboundagent.onrender.com/loads/REF09460
+'''
+**Example Response**
 ```json
 {
   "reference_number": "REF09460",
@@ -54,7 +59,7 @@ This project simulates a voice-enabled AI agent for carrier sales reps at **Happ
 
 ---
 
-### ✅ `GET /verify_carrier?mc_number=...`  
+### ✅ `GET /verify_carrier?mc_number={mc_number}`  
 Validate carrier's MC number using the FMCSA API.
 
 **Example Request**
@@ -79,7 +84,6 @@ Store a booking confirmation submitted by a verified carrier.
 **Example Request**
 ```
 POST https://inboundagent.onrender.com/confirm_booking
-Content-Type: application/json
 ```
 
 **Request Body**
