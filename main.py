@@ -3,6 +3,11 @@ from pydantic import BaseModel
 import csv
 from fastapi import FastAPI, HTTPException
 import requests
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+FMCSA_API_KEY = os.getenv("FMCSA_API_KEY")
 
 
 
@@ -20,7 +25,7 @@ def root():
     return {"message": "Welcome to the HappyRobot API!"}
 
 
-FMCSA_API_KEY = "cdc33e44d693a3a58451898d4ec9df862c65b954"
+# FMCSA_API_KEY = "cdc33e44d693a3a58451898d4ec9df862c65b954"
 # FMCSA_API_KEY = "4745a64a6506b2dda4b9b79f5aed274e936f4d70"
 @app.get("/verify_carrier")
 def verify_carrier(mc_number: str):
