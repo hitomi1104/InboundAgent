@@ -128,10 +128,10 @@ POST https://inboundagent.onrender.com/confirm_booking
 
 > [https://www.loom.com/share/23ac5d47b2e9402db1342fa479732333?sid=99c94c4f-94f5-4d8b-aa20-700474d090c4]  
 > This 5-minute video walks through the HappyRobot Inbound Voice Agent in action. It simulates a real call between a carrier and the AI agent, showcasing how the system:
-	•	Collects and verifies carrier information using the FMCSA API
-	•	Finds available loads based on reference numbers
-	•	Presents detailed load offers including rate, location, equipment, and timing
-	•	Classifies the carrier’s response (e.g. interested, too expensive)
-	•	Extracts caller sentiment and booking details
-	•	Automatically confirms the booking via a POST request to the backend
-It also includes a high-level overview of the system architecture and the tech stack used to build and deploy the solution.
+- Collects and verifies carrier information using the FMCSA API
+- Finds available loads based on reference numbers
+- Presents detailed load offers including rate, location, equipment, and timing
+- Classifies the carrier’s response (e.g. interested, too expensive)
+- Extracts caller sentiment and booking details
+- Automatically confirms the booking via a POST request to the backend
+- It also includes a high-level overview of the system architecture and the tech stack used to build and deploy the solution.
