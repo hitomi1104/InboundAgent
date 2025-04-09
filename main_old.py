@@ -1,23 +1,27 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from pydantic import BaseModel
 import csv
+from fastapi import FastAPI, HTTPException
 import requests
-import os
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
-FMCSA_API_KEY = os.getenv("FMCSA_API_KEY")
+
+
 
 app = FastAPI()
 
+# Define a simple schema for carrier input
 class Carrier(BaseModel):
     mc_number: str
+
+
 
 @app.get("/")
 def root():
     return {"message": "Welcome to the HappyRobot API!"}
 
+
+FMCSA_API_KEY = "cdc33e44d693a3a58451898d4ec9df862c65b954"
+# FMCSA_API_KEY = "4745a64a6506b2dda4b9b79f5aed274e936f4d70"
 @app.get("/verify_carrier")
 def verify_carrier(mc_number: str):
     url = f"https://mobile.fmcsa.dot.gov/qc/services/carriers/docket-number/{mc_number}?webKey={FMCSA_API_KEY}"
@@ -46,6 +50,20 @@ def verify_carrier(mc_number: str):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail="Error parsing FMCSA response")
+    
+
+
+    except Exception as e:
+        # Fallback
+        if mc_number == "123456":
+            return {
+                "carrier_name": "Simulated Carrier Inc.",
+                "status": "active",
+                "mc_number": mc_number
+            }
+        raise HTTPException(status_code=500, detail="FMCSA API error or carrier not found")
+    
+
 
 @app.get("/loads/{reference_number}")
 def get_load_by_reference(reference_number: str):
@@ -59,6 +77,9 @@ def get_load_by_reference(reference_number: str):
         raise HTTPException(status_code=500, detail=str(e))
     
     raise HTTPException(status_code=404, detail="Load not found")
+
+
+
 
 class BookingConfirmation(BaseModel):
     carrier_name: str
@@ -75,8 +96,10 @@ class BookingConfirmation(BaseModel):
 
 @app.post("/confirm_booking")
 async def confirm_booking(data: BookingConfirmation):
-    return data.model_dump()
+    booking_data = data.model_dump()
+    return booking_data
+
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main2:app", host="127.0.0.1", port=10000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=10000)
