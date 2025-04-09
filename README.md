@@ -4,25 +4,27 @@ This project simulates a voice-enabled AI agent for carrier sales reps at **Happ
 
 ---
 
-## 🧠 Project Summary
+## Project Summary
 
 - AI Agent answers inbound calls from carrier reps  
 - Collects MC number and Reference Number  
 - Validates carrier with FMCSA API  
-- Searches available loads from CSV based on Reference Number  
-- Confirms bookings via `POST` to a backend endpoint  
+- Searches available loads from CSV based on Reference Number
+- Classifies carrier intent (e.g. interested, too expensive, etc.)
 - Extracts additional context like **sentiment** and **decline reason**
+- Confirms bookings via `POST` to a backend endpoint 
 
 ---
 
 ## 🚀 Features
 
-✅ FMCSA API integration  
-✅ Load lookup from CSV  
-✅ Booking confirmation via POST  
-✅ Extract carrier sentiment and intent  
-✅ Deployed via Render  
-✅ Environment-secured API keys
+- FMCSA API integration  
+- Load lookup from CSV  
+- Booking confirmation via POST  
+- Extract carrier sentiment and intent 
+- Classify carrier intent from conversation
+- Deployed via Render  
+- Environment-secured API keys
 
 ---
 
@@ -124,5 +126,12 @@ POST https://inboundagent.onrender.com/confirm_booking
 
 ## 🎥 Demo
 
-> [Insert Loom/Youtube link here]  
-> Includes walkthrough of API functionality, GET & POST examples, and explanation of code structure.
+> [https://www.loom.com/share/23ac5d47b2e9402db1342fa479732333?sid=99c94c4f-94f5-4d8b-aa20-700474d090c4]  
+> This 5-minute video walks through the HappyRobot Inbound Voice Agent in action. It simulates a real call between a carrier and the AI agent, showcasing how the system:
+	•	Collects and verifies carrier information using the FMCSA API
+	•	Finds available loads based on reference numbers
+	•	Presents detailed load offers including rate, location, equipment, and timing
+	•	Classifies the carrier’s response (e.g. interested, too expensive)
+	•	Extracts caller sentiment and booking details
+	•	Automatically confirms the booking via a POST request to the backend
+It also includes a high-level overview of the system architecture and the tech stack used to build and deploy the solution.
